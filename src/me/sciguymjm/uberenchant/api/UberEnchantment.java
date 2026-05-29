@@ -340,8 +340,8 @@ public abstract class UberEnchantment extends Enchantment implements Listener/*,
      *
      * @param task The task to add
      */
-    protected void addTask(UberTask task) {
-        UberRunnable.addTask(task);
+    protected void addTask(String taskId, UberTask task) {
+        UberRunnable.addTask(taskId, task);
     }
 
     protected <T> T getTag(ItemStack item, UberMeta<T> tag) {

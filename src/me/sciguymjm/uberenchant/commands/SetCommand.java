@@ -309,10 +309,16 @@ public class SetCommand extends UberTabCommand {
                 }
             }
             if (enchant instanceof EffectEnchantment effect && tag == BoolTag.ON_HELD && !BoolTag.ON_HELD.test(item, effect) && value)
-                UberRunnable.addTask(new HeldEffectTask(player, effect, (p, i, e) ->
+            {
+                HeldEffectTask task = new HeldEffectTask(player, effect, (p, i, e) ->
                         i.getType().equals(Material.AIR) ||
                                 !e.containsEnchantment(i) ||
-                                !BoolTag.ON_HELD.test(i, e)));
+                                !BoolTag.ON_HELD.test(i, e));
+                                
+                String taskId = player.getUniqueId().toString() + "_HAND";
+                UberRunnable.addTask(taskId, task);
+            }
+
             UberUtils.setMetaTag(item, enchant, tag.asMeta(), value);
             success = true;
         }

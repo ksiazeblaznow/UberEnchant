@@ -3,14 +3,14 @@ package me.sciguymjm.uberenchant.api.utils;
 import me.sciguymjm.uberenchant.UberEnchant;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UberRunnable extends BukkitRunnable {
 
     private static UberRunnable instance;
 
-    private static final List<UberTask> actions = new ArrayList<>();
+    private static final Map<String, UberTask> actions = new HashMap<>();
 
     private UberRunnable() {
         start();
@@ -22,8 +22,8 @@ public class UberRunnable extends BukkitRunnable {
         return instance;
     }
 
-    public synchronized static void addTask(UberTask task) {
-        actions.add(task);
+    public synchronized static void addTask(String id, UberTask task) {
+        actions.put(id, task);
     }
 
     public synchronized boolean isRunning() {
@@ -43,8 +43,9 @@ public class UberRunnable extends BukkitRunnable {
     @Override
     public void run() {
         synchronized (this) {
-            if (!actions.isEmpty())
-                actions.removeIf(action -> !action.update());
+            if (!actions.isEmpty()) {
+                actions.values().removeIf(action -> !action.update());
+            }
         }
     }
 }

@@ -324,8 +324,13 @@ public abstract class EffectEnchantment extends UberEnchantment {
             return;
         if (testBoolTag(item, BoolTag.ON_PICKUP))
             apply(item, entity);
-        if (testBoolTag(item, BoolTag.ON_HELD))
-            addTask(new HeldEffectTask(entity, this, (p, i, e) ->  i.getType().equals(Material.AIR)|| !e.containsEnchantment(i)));
+        if (testBoolTag(item, BoolTag.ON_HELD)) {
+            HeldEffectTask task = new HeldEffectTask(entity, this, (p, i, e) -> i.getType().equals(Material.AIR) || !e.containsEnchantment(i));
+            
+            String taskId = entity.getUniqueId().toString() + "_HAND";
+            
+            addTask(taskId, task);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -365,11 +370,16 @@ public abstract class EffectEnchantment extends UberEnchantment {
             return;
         if (conditions(item))
             return;
-        if (testBoolTag(item, BoolTag.ON_HELD))
-            addTask(new HeldEffectTask(event.getPlayer(), this, (p, i, e) ->
+        if (testBoolTag(item, BoolTag.ON_HELD)) {
+            HeldEffectTask task = new HeldEffectTask(event.getPlayer(), this, (p, i, e) ->
                     i.getType().equals(Material.AIR) ||
                     !e.containsEnchantment(i) ||
-                    !BoolTag.ON_HELD.test(i, e)));
+                    !BoolTag.ON_HELD.test(i, e));
+                    
+            String taskId = event.getPlayer().getUniqueId().toString() + "_HAND";
+            
+            addTask(taskId, task);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -445,7 +455,9 @@ public abstract class EffectEnchantment extends UberEnchantment {
                 public void run() {
                     if (!player.isBlocking())
                         cancel();
-                    addTask(task);
+                    
+                    String taskId = player.getUniqueId().toString() + "_OFFHAND";
+                    addTask(taskId, task);
                 }
             }.runTaskLater(UberEnchant.instance(), 6);
         }

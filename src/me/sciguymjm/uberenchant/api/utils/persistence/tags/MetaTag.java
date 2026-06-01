@@ -24,7 +24,7 @@ public interface MetaTag<T> {
     }
 
     default UberMeta<T> asMeta() {
-        return new UberMeta<>(this);
+        return UberMeta.fromTag(this);
     }
 
     default NamespacedKey getKey() {

@@ -32,7 +32,7 @@ public class UberRunnable extends BukkitRunnable {
 
     public synchronized void start() {
         if (!isRunning())
-            runTaskTimer(UberEnchant.instance(), 0, 0L);
+            runTaskTimer(UberEnchant.instance(), 0, 1L);
     }
 
     public synchronized void stop() {

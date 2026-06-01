@@ -37,6 +37,11 @@ public record UberMeta<T>(MetaTag<T> tag) {
     }
 
     public static <T> UberMeta<T> fromTag(MetaTag<T> tag) {
+        UberMeta<?> existing = getByKey(tag.getKey());
+        if (existing != null) {
+            return (UberMeta<T>) existing;
+        }
+        
         return new UberMeta<>(tag);
     }
 

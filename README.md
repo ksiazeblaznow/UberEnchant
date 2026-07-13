@@ -11,7 +11,7 @@ At that moment reloading server caused a relieve for ~20 mins, then it raised gr
 
 ### Change
 - Replaced the underlying `ArrayList` tracking system with a `HashMap` (`PlayerUUID_SLOT`). Tasks are now uniquely mapped per equipment slot, automatically overwriting and discarding old tasks on insertion.
-- Introduced check if `UberMeta` tag already exists. Reduced array size to ~12 from ever-growing number (17k+)
+- Introduced check if `UberMeta` tag already exists. Reduced array size to a constant number (~12) from ever-growing number.
 
 ### Results
-Performance is now at stable ~0.45 ms avg. on Raspberry Pi 5.
+Performance is now roughly at stable ~0.45 ms avg. on Raspberry Pi 5.
